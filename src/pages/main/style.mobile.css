@@ -1,0 +1,51 @@
+@media(max-width: 600px) {
+	.main {
+		flex-direction: column-reverse;
+	}
+
+	.main-display, .main-sidebar {
+		width: 100%;
+	}
+
+	.main-sidebar {
+		height: 70%;
+		border-bottom-right-radius: 30px;
+		border-bottom-left-radius: 30px;
+	}
+
+	.main-display {
+		height: 30%;
+		justify-content: flex-end;
+		padding-bottom: 20px;
+	}
+
+	.main-display > span:first-child {
+		display: none;
+	}
+
+	.main-sidebar-forecast-cnt::-webkit-scrollbar {
+		display: none;
+	}
+
+	.main-display-cnt > div:last-child {
+		/*flex-flow: row;*/
+		overflow: scroll;
+	}
+
+	.main-display-cnt > div:last-child::-webkit-scrollbar {
+		display: none;
+	}
+
+	.main-sidebar-top {
+		padding: 8px 12px;
+		border-radius: 3px;
+	}
+
+	.main-sidebar-toggle > span {
+		padding: 6px 28px;
+	}
+
+	.location-bar {
+		min-height: 280px;
+	}
+}

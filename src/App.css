@@ -1,0 +1,162 @@
+*, *::after, *::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@font-face {
+  src: url('/fonts/Exo2-VariableFont_wght.ttf');
+  font-family: Exo;
+}
+
+@font-face {
+  src: url('/fonts/Varela-Regular.ttf');
+  font-family: Varela;
+}
+
+.app {
+  width: 100%;
+  height: 100vh;
+  --bg: rgb(228, 228, 228);
+  background-color: var(--bg);
+  color: white;
+  font-family: Exo;
+}
+
+.navbar {
+  width: 100%;
+  padding: 0 4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+  position: fixed;
+  z-index: 2;
+}
+
+.nav-logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.nav-middle {
+  background-color: rgb(255, 255, 255, .2);
+  backdrop-filter: blur(28px);
+  padding: 8px 12px;
+  box-shadow: 0 0 2px rgb(255, 255, 255, .5);
+  display: flex;
+  gap: 12px;
+  border-radius: 28px;
+  position: relative;
+}
+
+.nav-middle > div {
+  height: 28px;
+  min-width: 28px;
+  background-color: white;
+  border-radius: 14px;
+  color: rgb(48, 48, 48);
+  font-size: .76rem;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  gap: 8px;
+  justify-content: center;
+}
+
+.nav-temp {
+  padding: 0 12px;
+  font-weight: 700 !important;
+  align-items: center;
+  gap: 16px !important;
+}
+
+.nav-temp > span:first-child {
+  display: flex;
+}
+
+.nav-temp-set {
+  display: flex;
+  align-items: center;
+}
+
+.nav-temp-set > div:first-child {
+  display: flex;
+  align-items: flex-end;
+}
+
+/*.nav-middle > div:nth-child(2) {
+  cursor: pointer;
+}
+*/
+.nav-middle > div:last-child {
+  padding-left: 12px;
+  padding-right: 12px;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.nav-settings {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgb(40, 40, 40, .6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-end {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-end > div {
+  border: none;
+  font-size: .7rem;
+  font-weight: 700;
+  background-color: white;
+  padding: 10px 28px;
+  cursor: pointer;
+  border-radius: 20px;
+  cursor: pointer;
+  color: rgb(40, 40, 40);
+  mix-blend-mode: difference;
+}
+
+.nav-temp-options {
+  position: absolute;
+  height: auto !important;
+  width: 88px !important;
+  top: 52px;
+  right: 6px;
+  border-radius: 8px !important;
+  display: flex;
+  flex-direction: column;
+  font-size: .6rem !important;
+  padding: 6px 0 !important;
+  background-color: none;
+  gap: 4px !important;
+  background-color: transparent !important;
+}
+
+
+.nav-temp-options > span {
+  width: 100%;
+  /*text-align: center;*/
+  /*border-bottom: 1px solid rgb(120, 120, 120, .6);*/
+  padding: 7px 0;
+  padding-left: 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  background-color: white;
+}
+
+.nav-temp-options > span:hover {
+  background-color: rgb(220, 220, 220);
+}

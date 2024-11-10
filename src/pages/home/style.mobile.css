@@ -1,0 +1,55 @@
+@media (max-width: 600px) {
+	.home-page-img > img {
+		width: auto;
+		height: 110%;
+	}
+
+	.home-page-service  {
+		flex-direction: column-reverse;
+		min-height: 540px;
+		height: auto;
+		margin-top: -2px;
+		gap: 32px;
+	}
+
+	.home-page-cnt {
+		align-self: center;
+		gap: 28px;
+	}
+
+	.home-page-banner {
+		height: 72vh;
+	}
+
+	.home-page-cnt > div:first-child {
+		font-size: 2.6rem;
+		margin-top: 140px;
+	}
+
+	.home-page-banner-curve {
+		top: calc(72vh - 40px);
+	}
+
+	.home-page-service-left, .home-page-service-right {
+		height: auto;
+		width: 100%;
+	}
+
+	.home-page-service-right {
+		padding: 0;
+	}
+
+	.home-page-service-left {
+		overflow: hidden;
+		min-width: auto;
+	}
+
+	.home-footer {
+		font-size: 2rem;
+	}
+
+	.home-footer-btm > div:last-child {
+		display: none;
+	}
+
+}
