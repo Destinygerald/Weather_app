@@ -8,19 +8,22 @@ import { WeatherContextFunction } from '../../context/WeatherContext.jsx'
 
 
 function MainSidebarCard ({ icon, date, weather, highTemp, lowTemp }) {
+
+	const [ dateInfo, setDateInfo ] = useState((new Date(date * 1000)).toString())
+
 	return (
 		<div className='main-sidebar-card'>
 			<div> {icon} </div>
 
 			<div>
 				<div>
-					<span className='main-sidebar-card-weather-type'>{ date || 'Friday'}</span>
-					<span>{weather || 'Heavy Rain'}</span>
+					<span className='main-sidebar-card-weather-type'>{ date ? dateInfo.slice(0, 3) : '----'}</span>
+					<span>{weather || '-----'}</span>
 				</div>
 
 				<div>
-					<span>{lowTemp || '9°'}</span>
-					<span>{highTemp || '16°'}</span>
+					<span>{ lowTemp ? parseFloat(lowTemp - 273).toFixed(1) : '-'}°</span>
+					<span>{ highTemp ? parseFloat(highTemp - 273).toFixed(1) : '-'}°</span>
 				</div>
 
 			</div>
@@ -33,7 +36,8 @@ function MainSidebar () {
 	// const [ location, setLocation ] = useState('Ikorodu, Lagos')
 	// const [ temp, setTemp ] = useState(18)
 	const [ tempType, setTempType ] = useState('C')
-	const [ selected, setSelected ] = useState(5) 
+	const [ selected, setSelected ] = useState(5)
+	const [ weatherInfo, setWeatherInfo ] = useState([])
 	const [ locationBarOpen, setLocationBarOpen ] = useState(false)
 	const { location, locationTemp } = LocationContextFunction()
 	const { weatherPrediction } = WeatherContextFunction()
@@ -52,10 +56,25 @@ function MainSidebar () {
 	}
 
 	function getDistinctPrediction () {
-		const forecast = [] 
+		const forecastChecker = []
+		const forecast = []
 
-		// weatherPrediction.map()
+		weatherPrediction.forEach(item => {
+			// console.log(item.dt_txt.split(' '))
+			if (!forecastChecker.includes(item.dt_txt.split(' ')[0])) {
+				forecast.push(item)
+				forecastChecker.push(item.dt_txt.split(' ')[0])
+			}
+		})
+
+		setWeatherInfo([...forecast])
+		// return forecast;
 	}
+
+	
+	useEffect(() => {
+		getDistinctPrediction()
+	}, [])
 
 	return (
 		<div className='main-sidebar'>
@@ -104,8 +123,8 @@ function MainSidebar () {
 			
 				<div className='main-sidebar-forecast-cnt'>
 					{
-						Array.from(Array(selected)).map((item, i) => (
-							<MainSidebarCard key={'main-sidebar-card-' + i} />
+						weatherInfo?.map((item, i) => (
+							<MainSidebarCard key={'main-sidebar-card-' + i} icon={item?.weather[0]?.icon} date={item?.dt} weather={item?.weather[0]?.description} highTemp={item?.main?.temp_max} lowTemp={item?.main?.temp_min} />
 						))
 					}
 				</div>
