@@ -36,7 +36,10 @@ function MainSidebar () {
 	const [ selected, setSelected ] = useState(5) 
 	const [ locationBarOpen, setLocationBarOpen ] = useState(false)
 	const { location, locationTemp } = LocationContextFunction()
+	const { weatherPrediction } = WeatherContextFunction()
 	
+	// console.log(weatherPrediction)
+
 	function handleSelect (arg) {
 		if (arg != 5 && arg != 7 && arg != 14) return;
 
@@ -48,6 +51,12 @@ function MainSidebar () {
 		setLocationBarOpen(!locationBarOpen)
 	}
 
+	function getDistinctPrediction () {
+		const forecast = [] 
+
+		// weatherPrediction.map()
+	}
+
 	return (
 		<div className='main-sidebar'>
 			<div className='main-sidebar-top' onClick={toggleLocationBar}>
@@ -56,12 +65,13 @@ function MainSidebar () {
 					<span>{location}</span>
 				</div>
 
-				<span>{ locationBarOpen ? '▴' : '▾'}</span>
+				{/*<span>{ locationBarOpen ? '▴' : '▾'}</span>*/}
 
 				{	
 					locationBarOpen
 					?
-					<div className='location-bar'></div>
+					''
+					// <div className='location-bar'></div>
 					:
 					''
 				}
@@ -71,21 +81,27 @@ function MainSidebar () {
 
 
 			<div className='main-sidebar-temp'>
-				<div>{ parseFloat(locationTemp - 270).toFixed(2)  }°{tempType}</div>
+				<div>{ parseFloat(locationTemp - 273).toFixed(2)  }°{tempType}</div>
 
 				<div />
 			</div>
 
 
 			<div className='main-sidebar-forecast'>
-				<span> The Next Days Forecast </span>
+				<span> The Next 5 Days Forecast </span>
 
+			{/* The api couldn't release data for more than 5 days 😢.
+				It really stressed me out [The Api, I think they should update their Documentation] 
+			*/}
+
+			{/*				
 				<div className='main-sidebar-toggle'>
 					<span onClick={() => handleSelect(5)} className={selected == 5 ? 'selected' : ''}> 5 Days </span>
 					<span onClick={() => handleSelect(7)} className={selected == 7 ? 'selected' : ''}> 7 Days </span>
 					<span onClick={() => handleSelect(14)} className={selected == 14 ? 'selected' : ''}> 14 Days </span>
 				</div>
-
+			*/}
+			
 				<div className='main-sidebar-forecast-cnt'>
 					{
 						Array.from(Array(selected)).map((item, i) => (
@@ -104,16 +120,21 @@ function MainSidebar () {
 function DisplayCard ({ time, weather, temp, icon, i }) {
 	return (
 		<div className='main-display-cnt-card'>
-			<span>{ time || `${i + 9}:00` }</span>
+			<span>{ time ? time?.split(' ')[1].slice(0, 5)  : `${i + 9}:00` }</span>
 
 			<div>{icon}</div>
 
-			<span>{temp || 9}°C</span>
+			<span>{temp ? parseFloat(temp - 273).toFixed(2) : 9}°C</span>
 		</div>
 	)
 }
 
 function Display ({ weatherInfo }) {
+
+	const { weatherPrediction } = WeatherContextFunction()
+
+	// console.log(weatherPrediction)
+
 	return (
 		<div className='main-display'>
 			<span>Time</span>
@@ -124,8 +145,8 @@ function Display ({ weatherInfo }) {
 				
 				<div>
 					{
-						Array.from(Array(10)).map((item, i) => (
-							<DisplayCard key={'display-card-' + i} i={i} />
+						weatherPrediction?.slice(0, 10).map((item, i) => (
+							<DisplayCard key={'display-card-' + i} i={i} icon={item?.weather[0]?.icon} temp={item?.main?.temp} time={item?.dt_txt} />
 						))
 					}
 				</div>
@@ -137,7 +158,7 @@ function Display ({ weatherInfo }) {
 function Page () {
 
 	const { changeLocation, changeLocationTemp, location, locationTemp } = LocationContextFunction()
-	const { changeWeatherInfo, weatherInfo } = WeatherContextFunction()
+	const { changeWeatherInfo, weatherInfo, changeWeatherPrediction } = WeatherContextFunction()
 	const ApiKey = 'c8eca5bad07c8ba3b2e3693574d03d27'
 
 	async function getAllWeatherInfo () {
@@ -156,9 +177,9 @@ function Page () {
 		changeLocationTemp(res3.main.temp)
 		changeWeatherInfo(res3)
 
-		const forecastFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
+		const forecastFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
 		const res4 = await forecastFetch.json()
-		console.log(res4)
+		changeWeatherPrediction([...res4?.list])
 		
 	}
 

@@ -47,6 +47,9 @@ function PageBanner () {
 
 
 function PageAbout (){
+
+	const navigate = useNavigate()
+
 	return (
 		<div className='home-page-about'>
 			<div className='home-page-about-cnt'>
@@ -54,8 +57,8 @@ function PageAbout (){
 
 				<span>Rely on Fraij for year-round weather forecast on your location and around the world.</span>
 
-				<div className='home-page-cnt-btn home-about-btn'>
-					<div>Explore Benefits</div>
+				<div className='home-page-cnt-btn home-about-btn' onClick={() => { navigate('/weather') }}>
+					<div>Weather Info</div>
 
 					<div className='home-page-cnt-btn-arrow'>
 						<div>
@@ -167,8 +170,9 @@ function Page () {
 	// API KEY - c8eca5bad07c8ba3b2e3693574d03d27
 
 	const { changeLocation, changeLocationTemp } = LocationContextFunction()
-	const { changeWeatherInfo } = WeatherContextFunction()
+	const { changeWeatherInfo, changeWeatherPrediction } = WeatherContextFunction()
 	const ApiKey = 'c8eca5bad07c8ba3b2e3693574d03d27'
+	const ForecastApiKey = '06057454655e8cdda96769cfb3f68e86'
 
 
 	async function getAllWeatherInfo () {
@@ -187,9 +191,9 @@ function Page () {
 		changeLocationTemp(res3.main.temp)
 		changeWeatherInfo(res3)
 
-		const forecastFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
+		const forecastFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
 		const res4 = await forecastFetch.json()
-		console.log(res4)
+		changeWeatherPrediction([...res4?.list])
 	}
 
 

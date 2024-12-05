@@ -16,7 +16,7 @@
 	.main-display {
 		height: 30%;
 		justify-content: flex-end;
-		padding-bottom: 20px;
+		padding-bottom: 40px;
 	}
 
 	.main-display > span:first-child {
