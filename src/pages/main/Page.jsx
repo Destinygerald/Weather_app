@@ -5,6 +5,48 @@ import { useState, useEffect } from 'react'
 import { FaLocationCrosshairs } from 'react-icons/fa6'
 import { LocationContextFunction } from '../../context/LocationContext.jsx'
 import { WeatherContextFunction } from '../../context/WeatherContext.jsx'
+import { MdSunny, MdThunderstorm } from 'react-icons/md'
+import { IoPartlySunny } from 'react-icons/io5'
+import { IoIosCloudy, IoMdRainy } from 'react-icons/io'
+import { BsFillCloudsFill, BsCloudRainHeavyFill } from 'react-icons/bs'
+
+const Icons = [
+	{
+		number1: '01n',
+		number2: '01d',
+		icon: <MdSunny />
+	},
+	{
+		number1: '02n',
+		number2: '02d',
+		icon: <IoPartlySunny />
+	},
+	{
+		number1: '03n',
+		number2: '03d',
+		icon: <IoIosCloudy />
+	},
+	{
+		number1: '04n',
+		number2: '04d',
+		icon: <BsFillCloudsFill />
+	},
+	{
+		number1: '09n',
+		number2: '09d',
+		icon: <IoMdRainy />
+	},
+	{
+		number1: '10n',
+		number2: '10d',
+		icon: <BsCloudRainHeavyFill />
+	},
+	{
+		number1: '11n',
+		number2: '11d',
+		icon: <MdThunderstorm />
+	}
+]
 
 
 function MainSidebarCard ({ icon, date, weather, highTemp, lowTemp }) {
@@ -13,7 +55,15 @@ function MainSidebarCard ({ icon, date, weather, highTemp, lowTemp }) {
 
 	return (
 		<div className='main-sidebar-card'>
-			<div> {icon} </div>
+			
+			{
+				Icons.map((item, i) => {
+					if (item.number1 == icon || item.number2 == icon) {
+						return (<div key={i}>  {item.icon} </div> )
+					}
+					return;
+				})
+			} 
 
 			<div>
 				<div>
@@ -141,7 +191,14 @@ function DisplayCard ({ time, weather, temp, icon, i }) {
 		<div className='main-display-cnt-card'>
 			<span>{ time ? time?.split(' ')[1].slice(0, 5)  : `${i + 9}:00` }</span>
 
-			<div>{icon}</div>
+			{
+					Icons.map((item, i)=> {
+						if (item.number1 == icon || item.number2 == icon) {
+							return ( <div key={i}> {item.icon }</div> )
+						}
+						return;
+					})
+				} 
 
 			<span>{temp ? parseFloat(temp - 273).toFixed(2) : 9}°C</span>
 		</div>
