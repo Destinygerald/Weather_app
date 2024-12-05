@@ -50,7 +50,7 @@
 	}
 
 	.bck-img > img {
-		width: auto;
+		width: fit-content;
 		height: 100%;
 	}
 }
