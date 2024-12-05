@@ -48,4 +48,9 @@
 	.location-bar {
 		min-height: 280px;
 	}
+
+	.bck-img > img {
+		width: auto;
+		height: 100%;
+	}
 }

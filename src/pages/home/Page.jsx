@@ -175,21 +175,21 @@ function Page () {
 		const ipFetch = await fetch('https://api.ipify.org?format=json')
 		const res1 = await ipFetch.json()
 
-		// console.log(res1)
-
 		//  PREV API - 'https://ipinfo.io/${ip}/json'
 		const locFetch = await fetch(`https://api.ipfind.com/?ip=${res1.ip}`)
 		const res2 = await locFetch.json()
 
 		changeLocation(res2.city)
-		// console.log(res2)
 
 		const weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
 		const res3 = await weatherFetch.json()
 
-		// console.log(res3)
 		changeLocationTemp(res3.main.temp)
 		changeWeatherInfo(res3)
+
+		const forecastFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
+		const res4 = await forecastFetch.json()
+		console.log(res4)
 	}
 
 

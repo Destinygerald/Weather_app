@@ -1,15 +1,18 @@
 .main {
 	width: 100%;
 	height: 100dvh;
-	background: linear-gradient(rgb(80, 80, 220), skyblue);
+	background: linear-gradient(rgb(0, 120, 220), rgb(20, 160, 120));
 	display: flex;
 	overflow: hidden;
+	position: relative;
 }
 
 .main-display {
 	width: 72%;
 	height: 100%;
 	display: flex;
+	position: relative;
+	z-index: 1;
 	flex-direction: column;
 	align-items: flex-end;
 	padding: 12px 20px;
@@ -71,6 +74,8 @@
 .main-sidebar {
 	width: 28%;
 	height: 100%;
+	position: relative;
+	z-index: 1;
 	background-color: rgb(255, 255, 255, .2);
 	backdrop-filter: blur(20px);
 	display: flex;
@@ -225,4 +230,18 @@
 .main-sidebar-card-weather-type {
 	font-weight: 800;
 	font-size: .8rem;
+}
+
+.bck-img {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 0;
+}
+
+.bck-img > img {
+	width: 100%;
+	height: 100%;
+	opacity: .5;
+	filter: blur(8px);
 }

@@ -1,5 +1,6 @@
 import './style.css'
 import './style.mobile.css'
+import img1 from '/images/blue-sky.webp'
 import { useState, useEffect } from 'react'
 import { FaLocationCrosshairs } from 'react-icons/fa6'
 import { LocationContextFunction } from '../../context/LocationContext.jsx'
@@ -118,7 +119,7 @@ function Display ({ weatherInfo }) {
 			<span>Time</span>
 
 			<div className='main-display-cnt'>
-				<span>{ weatherInfo?.weather[0].description || 'Heavy Rain'}</span>
+				<span>{ weatherInfo.weather ? weatherInfo?.weather[0]?.description : 'Heavy Rain'}</span>
 				<div className='main-display-cnt-line' />
 				
 				<div>
@@ -143,22 +144,25 @@ function Page () {
 		const ipFetch = await fetch('https://api.ipify.org?format=json')
 		const res1 = await ipFetch.json()
 
-		// console.log(res1)
-
 		//  PREV API - 'https://ipinfo.io/${ip}/json'
 		const locFetch = await fetch(`https://api.ipfind.com/?ip=${res1.ip}`)
 		const res2 = await locFetch.json()
 
 		changeLocation(res2.city)
-		// console.log(res2)
-
+		
 		const weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
 		const res3 = await weatherFetch.json()
 
-		// console.log(res3)
 		changeLocationTemp(res3.main.temp)
 		changeWeatherInfo(res3)
+
+		const forecastFetch = await fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
+		const res4 = await forecastFetch.json()
+		console.log(res4)
+		
 	}
+
+
 
 
 	useEffect(() => {
@@ -168,12 +172,15 @@ function Page () {
 		getAllWeatherInfo()
 	}, [])
 
-	console.log(weatherInfo)
 
 	return (
 		<div className='main'>
 			<Display weatherInfo={weatherInfo} />
 			<MainSidebar />
+
+			<div className='bck-img'>
+				<img src={img1} />
+			</div>
 		</div>
 	)
 }
