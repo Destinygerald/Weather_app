@@ -11,6 +11,7 @@ import { CiWarning, CiTimer } from 'react-icons/ci'
 import { LuArrowUpToLine, LuArrowRight } from 'react-icons/lu'
 import { Navbar } from '../../Navbar.jsx'
 import { LocationContextFunction } from '../../context/LocationContext.jsx'
+import { WeatherContextFunction } from '../../context/WeatherContext.jsx'
 
 function PageBanner () {
 
@@ -165,44 +166,35 @@ function Page () {
 
 	// API KEY - c8eca5bad07c8ba3b2e3693574d03d27
 
-	const [ ip, setIp ] = useState('')
-	const [ coord, setCoord ] = useState({
-		lat: '', lon: ''
-	})
 	const { changeLocation, changeLocationTemp } = LocationContextFunction()
+	const { changeWeatherInfo } = WeatherContextFunction()
 	const ApiKey = 'c8eca5bad07c8ba3b2e3693574d03d27'
 
-	async function getIp () {
-		await fetch('https://api.ipify.org?format=json')
-		.then(response => response.json())
-		.then(res => setIp(res.ip))
-	}
 
-	async function getCurrentLocation () {
+	async function getAllWeatherInfo () {
+		const ipFetch = await fetch('https://api.ipify.org?format=json')
+		const res1 = await ipFetch.json()
 
-		await getIp()
+		// console.log(res1)
 
 		//  PREV API - 'https://ipinfo.io/${ip}/json'
-		await fetch(`https://api.ipfind.com/?ip=${ip}`)
-		  .then(response => response.json())
-		  .then(data => {
-		  	// console.log(data)
-		  	changeLocation(data?.city)
-		  	setCoord({ lon: data.longitude, lat: data.latitude })
-		})
+		const locFetch = await fetch(`https://api.ipfind.com/?ip=${res1.ip}`)
+		const res2 = await locFetch.json()
 
-	}
+		changeLocation(res2.city)
+		// console.log(res2)
 
-	async function getWeatherCondition () {
-		await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coord.lat}&lon=${coord.lon}&appid=${ApiKey}`)
-		.then(res => res.json())
-		.then(res => changeLocationTemp(res?.main?.temp))
+		const weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
+		const res3 = await weatherFetch.json()
+
+		// console.log(res3)
+		changeLocationTemp(res3.main.temp)
+		changeWeatherInfo(res3)
 	}
 
 
 	useEffect(() => {
-		getCurrentLocation()
-		getWeatherCondition()
+		getAllWeatherInfo()
 	}, [])
 
 	return (

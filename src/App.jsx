@@ -5,6 +5,7 @@ import Homepage from './pages/home/Page.jsx'
 import Mainpage from './pages/main/Page.jsx'
 import { Navbar } from './Navbar.jsx'
 import { LocationContextProvider } from './context/LocationContext.jsx'
+import { WeatherContextProvider } from './context/WeatherContext.jsx'
 
 
 
@@ -12,6 +13,7 @@ function App() {
 
   return (
     <div className='app'>
+      <WeatherContextProvider>
       <LocationContextProvider>
 
         {/*<Navbar />*/}
@@ -23,6 +25,7 @@ function App() {
         </Routes>
 
       </LocationContextProvider>
+      </WeatherContextProvider>
     </div>
   )
 }

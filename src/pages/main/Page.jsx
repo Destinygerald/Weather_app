@@ -1,8 +1,9 @@
 import './style.css'
 import './style.mobile.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaLocationCrosshairs } from 'react-icons/fa6'
 import { LocationContextFunction } from '../../context/LocationContext.jsx'
+import { WeatherContextFunction } from '../../context/WeatherContext.jsx'
 
 
 function MainSidebarCard ({ icon, date, weather, highTemp, lowTemp }) {
@@ -111,13 +112,13 @@ function DisplayCard ({ time, weather, temp, icon, i }) {
 	)
 }
 
-function Display () {
+function Display ({ weatherInfo }) {
 	return (
 		<div className='main-display'>
 			<span>Time</span>
 
 			<div className='main-display-cnt'>
-				<span>Heavy Rain</span>
+				<span>{ weatherInfo?.weather[0].description || 'Heavy Rain'}</span>
 				<div className='main-display-cnt-line' />
 				
 				<div>
@@ -133,9 +134,45 @@ function Display () {
 }
 
 function Page () {
+
+	const { changeLocation, changeLocationTemp, location, locationTemp } = LocationContextFunction()
+	const { changeWeatherInfo, weatherInfo } = WeatherContextFunction()
+	const ApiKey = 'c8eca5bad07c8ba3b2e3693574d03d27'
+
+	async function getAllWeatherInfo () {
+		const ipFetch = await fetch('https://api.ipify.org?format=json')
+		const res1 = await ipFetch.json()
+
+		// console.log(res1)
+
+		//  PREV API - 'https://ipinfo.io/${ip}/json'
+		const locFetch = await fetch(`https://api.ipfind.com/?ip=${res1.ip}`)
+		const res2 = await locFetch.json()
+
+		changeLocation(res2.city)
+		// console.log(res2)
+
+		const weatherFetch = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${res2.latitude}&lon=${res2.longitude}&appid=${ApiKey}`)
+		const res3 = await weatherFetch.json()
+
+		// console.log(res3)
+		changeLocationTemp(res3.main.temp)
+		changeWeatherInfo(res3)
+	}
+
+
+	useEffect(() => {
+
+		if (location && locationTemp != '0') return;
+
+		getAllWeatherInfo()
+	}, [])
+
+	console.log(weatherInfo)
+
 	return (
 		<div className='main'>
-			<Display />
+			<Display weatherInfo={weatherInfo} />
 			<MainSidebar />
 		</div>
 	)
