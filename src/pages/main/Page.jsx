@@ -2,6 +2,8 @@ import './style.css'
 import './style.mobile.css'
 import { useState } from 'react'
 import { FaLocationCrosshairs } from 'react-icons/fa6'
+import { LocationContextFunction } from '../../context/LocationContext.jsx'
+
 
 function MainSidebarCard ({ icon, date, weather, highTemp, lowTemp }) {
 	return (
@@ -26,11 +28,12 @@ function MainSidebarCard ({ icon, date, weather, highTemp, lowTemp }) {
 
 function MainSidebar () {
 
-	const [ location, setLocation ] = useState('Ikorodu, Lagos')
-	const [ temp, setTemp ] = useState(18)
+	// const [ location, setLocation ] = useState('Ikorodu, Lagos')
+	// const [ temp, setTemp ] = useState(18)
 	const [ tempType, setTempType ] = useState('C')
 	const [ selected, setSelected ] = useState(5) 
 	const [ locationBarOpen, setLocationBarOpen ] = useState(false)
+	const { location, locationTemp } = LocationContextFunction()
 	
 	function handleSelect (arg) {
 		if (arg != 5 && arg != 7 && arg != 14) return;
@@ -66,7 +69,7 @@ function MainSidebar () {
 
 
 			<div className='main-sidebar-temp'>
-				<div>{ tempType == 'C' ? temp : 5 * (temp - 32) / 9 }°{tempType}</div>
+				<div>{ parseFloat(locationTemp - 270).toFixed(2)  }°{tempType}</div>
 
 				<div />
 			</div>

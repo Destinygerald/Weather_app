@@ -9,7 +9,8 @@ import { IoMdCloudOutline } from 'react-icons/io'
 import { TfiBoltAlt } from 'react-icons/tfi'
 import { CiWarning, CiTimer } from 'react-icons/ci'
 import { LuArrowUpToLine, LuArrowRight } from 'react-icons/lu'
-import  { Navbar } from '../../Navbar.jsx'
+import { Navbar } from '../../Navbar.jsx'
+import { LocationContextFunction } from '../../context/LocationContext.jsx'
 
 function PageBanner () {
 
@@ -149,7 +150,7 @@ function PageFooter () {
 				<span>Copyright©2024 All Rights Reserved</span>
 
 				<div>
-					<span>Suscribe</span>
+					<span>Subscribe</span>
 					<span> <LuArrowRight /> </span>
 				</div>
 
@@ -161,11 +162,48 @@ function PageFooter () {
 
 function Page () {
 
-	navigator.geolocation?.getCurrentPosition((success) => { console.log(success) }, (err) => { console.log('error :', err) }, {
-		enableHighAccuracy: true,
-		timeout: 5000,
-		maximumAge: 0
+
+	// API KEY - c8eca5bad07c8ba3b2e3693574d03d27
+
+	const [ ip, setIp ] = useState('')
+	const [ coord, setCoord ] = useState({
+		lat: '', lon: ''
 	})
+	const { changeLocation, changeLocationTemp } = LocationContextFunction()
+	const ApiKey = 'c8eca5bad07c8ba3b2e3693574d03d27'
+
+	async function getIp () {
+		await fetch('https://api.ipify.org?format=json')
+		.then(response => response.json())
+		.then(res => setIp(res.ip))
+	}
+
+	async function getCurrentLocation () {
+
+		await getIp()
+
+		//  PREV API - 'https://ipinfo.io/${ip}/json'
+		await fetch(`https://api.ipfind.com/?ip=${ip}`)
+		  .then(response => response.json())
+		  .then(data => {
+		  	// console.log(data)
+		  	changeLocation(data?.city)
+		  	setCoord({ lon: data.longitude, lat: data.latitude })
+		})
+
+	}
+
+	async function getWeatherCondition () {
+		await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coord.lat}&lon=${coord.lon}&appid=${ApiKey}`)
+		.then(res => res.json())
+		.then(res => changeLocationTemp(res?.main?.temp))
+	}
+
+
+	useEffect(() => {
+		getCurrentLocation()
+		getWeatherCondition()
+	}, [])
 
 	return (
 		<div className='home-page'>	

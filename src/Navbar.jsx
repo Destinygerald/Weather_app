@@ -4,18 +4,19 @@ import { useState } from 'react'
 import { FaLocationCrosshairs } from 'react-icons/fa6'
 import { IoIosSettings } from 'react-icons/io'
 import { LuSearch } from 'react-icons/lu'
+import { LocationContextFunction } from './context/LocationContext.jsx'
 
 function NavMiddle () {
 
-	// const [ searchOpen, setSearchOpen ] = useState(false)
-	// const [ search, setSearch ] = useState('')
 	const [ temp, setTemp ] = useState(28)
 	const [ tempOpen, setTempOpen ] = useState(false)
-	const [ tempType, setTempType ] = useState('C')
-	const [ location, setLocation  ] = useState('Ikorodu, Lagos')
+	const [ tempType, setTempType ] = useState('K')
+	// const [ location, setLocation  ] = useState('Ikorodu, Lagos')
+
+	const { location, locationTemp } = LocationContextFunction()
 
 	function changeTempType (arg) {
-		if (arg != "C"  && arg != 'F') {
+		if (arg != "C"  && arg != 'K') {
 			setTempOpen(false)
 			return;
 		}
@@ -29,7 +30,7 @@ function NavMiddle () {
 			<div className='nav-temp'>
 				<span> <FaLocationCrosshairs /> </span>
 				<span>{location}</span>
-				<span>{temp}</span>
+				<span>{ tempType == 'K' ? locationTemp : parseFloat(parseFloat(locationTemp) - 270).toFixed(2)} {tempType}</span>
 			</div>
 {/*
 			<div>
@@ -49,8 +50,8 @@ function NavMiddle () {
 				tempOpen
 				?
 				<div className='nav-temp-options'>
-					<span onClick={() => changeTempType('F')}>F (Farenheit)</span>
-					<span onClick={() => changeTempType('c')}>C (Celcius)</span>
+					<span className={tempType == 'K' ? 'selectedTempType' : ''} onClick={() => changeTempType('K')}>K (Kelvin)</span>
+					<span className={tempType == 'C' ? 'selectedTempType' : ''} onClick={() => changeTempType('C')}>C (Celcius)</span>
 				</div>
 				:
 				<></>

@@ -1,6 +1,6 @@
 .main {
 	width: 100%;
-	height: 100vh;
+	height: 100dvh;
 	background: linear-gradient(rgb(80, 80, 220), skyblue);
 	display: flex;
 	overflow: hidden;
