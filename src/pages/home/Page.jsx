@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import bck from '/images/buildings.webp'
 import img2 from '/images/glass_city.webp'
+import weather1 from '/images/weather1.webp'
+import weather2 from '/images/weather2.webp'
+import weather3 from '/images/weather3.webp'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import { IoMdCloudOutline } from 'react-icons/io'
 import { TfiBoltAlt } from 'react-icons/tfi'
@@ -70,10 +73,10 @@ function PageAbout (){
 			</div>
 
 			<div className='home-page-about-images'>
-				<div />
-				<div />
-				<div />
-				<div />
+				<div> <img src={weather1} /> </div>
+				<div> <img src={weather2} /> </div>
+				<div> <img src={weather3} /> </div>
+				<div> <img src={weather2} /> </div>
 
 				{/*<svg>
 					<path d='M 2,5 S 2, -2 4, 5' stroke='grey' strokeWidth='4' fill='none' />
@@ -207,7 +210,7 @@ function Page () {
 			<PageBanner />
 
 			<div className='home-page-banner-curve' />
-			<div className='home-page-banner-curve' />
+			<div className='home-page-banner-curve-2' />
 
 			<PageAbout />
 			<PageService />

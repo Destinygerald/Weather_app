@@ -107,7 +107,7 @@
 	filter: brightness(.9);
 }
 
-.home-page-banner-curve {
+.home-page-banner-curve, .home-page-banner-curve-2 {
 	position: absolute;
 	top: calc(96vh - 40px);
 	z-index: 2;
@@ -118,8 +118,9 @@
 	height: 40px;
 }
 
-.home-page-banner-curve:nth-child(2) {
-	right: 0;
+.home-page-banner-curve-2 {
+	right: 0 !important;
+	background-color: transparent;
 	box-shadow: 20px 20px 1px var(--bg);
 }
 
@@ -184,6 +185,12 @@
 	position: relative;
 	z-index: 1;
 	/*display: none;*/
+	overflow: hidden;
+}
+
+.home-page-about-images > div > img {
+	width: 140%;
+	filter: brightness(.8);
 }
 
 .home-page-about-images > div:nth-child(1) {
