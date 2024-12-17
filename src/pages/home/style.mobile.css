@@ -52,4 +52,8 @@
 		display: none;
 	}
 
+	.home-page-about-images > div > img {
+	    width: 220%;
+	}
+
 }
