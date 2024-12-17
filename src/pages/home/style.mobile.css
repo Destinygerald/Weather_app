@@ -53,7 +53,8 @@
 	}
 
 	.home-page-about-images > div > img {
-	    width: 220%;
+	        width: auto;
+	        height: 120%
 	}
 
 }
